@@ -25,8 +25,8 @@
 --SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 _addon.name = 'Repeater'
-_addon.version = '1.0'
-_addon.author = 'Selindrile, thanks to: Balloon and Lorand'
+_addon.version = '1.1'
+_addon.author = 'Selindrile, thanks to: Balloon and Lorand and Mujihina'
 _addon.commands = {'repeat','repeater'}
 
 require('luau')
