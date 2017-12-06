@@ -10,6 +10,7 @@ Commands
 //repeater on/start/go		Starts repeating the command you set.
 //repeater stop/quit/off	Stops repeating the command.
 //repeater repeat			Starts or stops the command repeating.
+//repeater count			Determines how many times to repeat the action, default is forever.
 
 Example uses:
 
