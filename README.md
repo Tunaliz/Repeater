@@ -2,19 +2,19 @@ Simple windower command repeating tool for FFXI.
 
 Commands
 
-//repeater					      Gives current settings for repeater.
+//repeater                Gives current settings for repeater.
 
 //repeater command        Sets the line following as a windower command to be repeated.
 
-//repeater delay			    Sets the delay between repeat in seconds.
+//repeater delay          Sets the delay between repeat in seconds.
 
 //repeater on/start/go    Starts repeating the command you set.
 
-//repeater stop/quit/off	Stops repeating the command.
+//repeater stop/quit/off  Stops repeating the command.
 
-//repeater repeat			    Starts or stops the command repeating.
+//repeater repeat         Starts or stops the command repeating.
 
-//repeater count			    Determines how many times to repeat the action, default is forever.
+//repeater count          Determines how many times to repeat the action, default is forever.
 
 Example uses:
 
