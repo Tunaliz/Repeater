@@ -27,7 +27,7 @@
 _addon.name = 'Repeater'
 _addon.version = '1.1'
 _addon.author = 'Selindrile, thanks to: Balloon and Lorand and Mujihina'
-_addon.commands = {'repeat','repeater'}
+_addon.commands = {'repeat','repeater','rp'}
 
 require('luau')
 chat = require('chat')
@@ -35,7 +35,7 @@ chars = require('chat.chars')
 packets = require('packets')
 
 repeatdelay = 10
-jitter = false
+jitterdelay = 0
 line = 'input /echo Command to repeat has not been set.'
 count = 'Forever'
 
@@ -54,7 +54,7 @@ windower.register_event('addon command',function (...)
 		windower.add_to_chat(7,'Delay in seconds: '..repeatdelay..'')
 		windower.add_to_chat(7,'Command to repeat: '..line..'')
 		windower.add_to_chat(7,'Repeat count: '..count..'')
-		windower.add_to_chat(7,'Jitter: '..jitter..'')
+		windower.add_to_chat(7,'Jitter in seconds: '..jitterdelay..'')
 
 	elseif cmd[1] == "help" then
 		windower.add_to_chat(7,'To start or stop repeating use //repeater repeat')
@@ -64,11 +64,15 @@ windower.register_event('addon command',function (...)
 		windower.add_to_chat(7,'To add a 0-3 second jitter to your command //repeater jitter')
 
 	elseif cmd[1] == "rollcall" then
-		if autorepeat == true and ((type(count) == 'string' and count == 'Forever') or (windower.regex.match(count, "^[0-9]+$") and count > 0)) then
+		if autorepeat == true and ((type(count) == 'string' and count == 'Forever') or (windower.regex.match(count, "^([0-9](\.?[0-9]+?)?)+$") and count > 0)) then
 			-- seed math.random with current OS time
 			math.randomseed(os.clock())
 			windower.send_command(''..line..'')
-			repeatdelay = jitter and repeatdelay + math.random(0, 3) or repeatdelay
+			if (type(jitterdelay) == 'number' and jitterdelay > 0) then
+				repeatdelay = repeatdelay + (math.random() * jitterdelay)
+				windower.add_to_chat(7,'Executing command '..command..' with '..repeatdelay..' delay.')
+			end
+
 			windower.send_command('@wait '..repeatdelay..';repeater rollcall')
 			if count ~= 'Forever' then
 				count = count -1
@@ -115,31 +119,28 @@ windower.register_event('addon command',function (...)
 		windower.send_command('lua unload repeater')
 
 	elseif cmd[1] == "jitter" then
-		if jitter then
-			jitter = false
-			windower.add_to_chat(122,'Jitter has been turned off.')
-		else
-			jitter = true
-			windower.add_to_chat(122,'Jitter has been turned on.')
+		if windower.regex.match(cmd[2], "^([0-9](\.?[0-9]+?)?)+$") then
+			jitterdelay = cmd[2]
+			windower.add_to_chat(122,'Your jitter delay has been set to: '..jitterdelay..'.')
 		end
 
 	elseif cmd[1] == "delay" then
-		if windower.regex.match(cmd[2], "^[0-9]+$") then
+		if windower.regex.match(cmd[2], "^([0-9](\.?[0-9]+?)?)+$") then
 			repeatdelay = cmd[2]
 			windower.add_to_chat(122,'Your repeat delay has been set to: '..repeatdelay..'.')
 		else
-			windower.add_to_chat(122,'Delay must be input in numerals.')
+			windower.add_to_chat(122,'Delay must be input in whole or decimal numerals.')
 		end
 
 	elseif cmd[1] == "count" then
 		if cmd[2]:ucfirst() == 'Forever' then
 			count = 'Forever'
 			windower.add_to_chat(122,'Your repeat count has been set to: '..count..'.')
-		elseif windower.regex.match(cmd[2], "^[0-9]+$") then
+		elseif windower.regex.match(cmd[2], "^([0-9](\.?[0-9]+?)?)+$") then
 			count = tonumber(cmd[2])
 			windower.add_to_chat(122,'Your repeat count has been set to: '..count..'.')
 		else
-			windower.add_to_chat(122,'Delay must be input in numerals.')
+			windower.add_to_chat(122,'Delay must be input in whole or decimal numerals.')
 		end
 	end
 end)
