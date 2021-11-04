@@ -115,7 +115,13 @@ windower.register_event('addon command',function (...)
 		windower.send_command('lua unload repeater')
 
 	elseif cmd[1] == "jitter" then
-		jitter = true
+		if jitter then
+			jitter = false
+			windower.add_to_chat(122,'Jitter has been turned off.')
+		else
+			jitter = true
+			windower.add_to_chat(122,'Jitter has been turned on.')
+		end
 
 	elseif cmd[1] == "delay" then
 		if windower.regex.match(cmd[2], "^[0-9]+$") then
