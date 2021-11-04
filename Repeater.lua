@@ -54,6 +54,7 @@ windower.register_event('addon command',function (...)
 		windower.add_to_chat(7,'Delay in seconds: '..repeatdelay..'')
 		windower.add_to_chat(7,'Command to repeat: '..line..'')
 		windower.add_to_chat(7,'Repeat count: '..count..'')
+		windower.add_to_chat(7,'Jitter: '..jitter..'')
 
 	elseif cmd[1] == "help" then
 		windower.add_to_chat(7,'To start or stop repeating use //repeater repeat')
@@ -67,7 +68,7 @@ windower.register_event('addon command',function (...)
 			-- seed math.random with current OS time
 			math.randomseed(os.clock())
 			windower.send_command(''..line..'')
-			repeatdelay = jitter ? repeatdelay + math.random(0, 3) : repeatdelay
+			repeatdelay = jitter and repeatdelay + math.random(0, 3) or repeatdelay
 			windower.send_command('@wait '..repeatdelay..';repeater rollcall')
 			if count ~= 'Forever' then
 				count = count -1
