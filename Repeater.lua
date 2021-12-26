@@ -124,7 +124,7 @@ windower.register_event('addon command',function (...)
 			windower.add_to_chat(122,'Your jitter delay has been set to: '..jitterdelay..'.')
 		end
 
-	elseif cmd[1] == "delay" then
+	elseif cmd[1] == "delay" or cmd[1] == "cycle" then
 		if windower.regex.match(cmd[2], "^([0-9](\.?[0-9]+?)?)+$") then
 			repeatdelay = cmd[2]
 			windower.add_to_chat(122,'Your repeat delay has been set to: '..repeatdelay..'.')
